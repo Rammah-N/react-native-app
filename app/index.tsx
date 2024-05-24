@@ -7,8 +7,8 @@ export default function RootLayout() {
 		<View className="flex items-center justify-center flex-1">
 			<Text className="text-3xl font-pblack">Aora</Text>
 			<StatusBar style="auto" />
-			<Link href="/profile" className="text-blue-600 font-bold">
-				Go To Profile
+			<Link href="/home" className="text-blue-600 font-bold">
+				Go To Home
 			</Link>
 		</View>
 	);
