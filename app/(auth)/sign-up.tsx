@@ -5,13 +5,16 @@ import {
 	Image,
 	NativeSyntheticEvent,
 	TextInputChangeEventData,
+	Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
 import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import { createUser } from "../../lib/appwrite";
+import { useGlobalcontext } from "../../context/provider";
 
 const SignUp = () => {
 	const [form, setForm] = useState({
@@ -20,7 +23,28 @@ const SignUp = () => {
 		password: "",
 	});
 	const [submitting, setSubmitting] = useState(false);
-	const submit = () => {};
+	const { setUser } = useGlobalcontext();
+	const submit = async () => {
+		if (!form.username || !form.email || !form.password)
+			return Alert.alert("Please fill all fields");
+		setSubmitting(true);
+		try {
+			const result = await createUser({
+				email: form.email,
+				password: form.password,
+				username: form.username,
+			});
+
+			// set it to global state
+			console.log(result);
+			setUser(result);
+			router.replace("/home");
+		} catch (error: any) {
+			Alert.alert(error.message);
+		} finally {
+			setSubmitting(false);
+		}
+	};
 	return (
 		<SafeAreaView className="bg-primary h-full">
 			<ScrollView>

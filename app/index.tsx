@@ -4,8 +4,24 @@ import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../constants";
 import CustomButton from "../components/CustomButton";
-
+import "react-native-url-polyfill/auto";
+import { useGlobalcontext } from "../context/provider";
 export default function RootLayout() {
+	const { loading, loggedIn } = useGlobalcontext();
+	if (loading) {
+		return (
+			<View className="flex-1 justify-center items-center h-full bg-primary ">
+				<Text className="text-secondary text-2xl font-semibold">
+					Checking Authentication...
+				</Text>
+				<StatusBar style="light" backgroundColor="#161622" />
+			</View>
+		);
+	}
+
+	if (loggedIn) {
+		return <Redirect href="/home" />;
+	}
 	return (
 		<SafeAreaView className="bg-primary h-full">
 			<ScrollView contentContainerStyle={{ height: "100%" }}>
