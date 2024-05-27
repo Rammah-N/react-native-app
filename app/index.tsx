@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../constants";
-import CustomButton from "../components/custom-button";
+import CustomButton from "../components/CustomButton";
 
 export default function RootLayout() {
 	return (
