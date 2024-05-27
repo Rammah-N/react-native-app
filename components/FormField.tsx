@@ -22,7 +22,7 @@ const FormField = ({
 	...props
 }: {
 	title: string;
-	handleChange: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
+	handleChange: (value: string) => void;
 	value: string;
 	placeholder?: string;
 	keyboardType?: KeyboardTypeOptions | undefined;
@@ -36,7 +36,7 @@ const FormField = ({
 				<TextInput
 					placeholder={placeholder}
 					placeholderTextColor={"#6B7b8b"}
-					onChange={handleChange}
+					onChangeText={handleChange}
 					secureTextEntry={title === "Password" && !showPassword}
 					className="w-full h-full text-gray-200"
 				/>

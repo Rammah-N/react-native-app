@@ -60,12 +60,10 @@ const SignUp = () => {
 					<FormField
 						title="Username"
 						value={form.username}
-						handleChange={(
-							event: NativeSyntheticEvent<TextInputChangeEventData>
-						) =>
+						handleChange={(value) =>
 							setForm((prev) => ({
 								...prev,
-								username: event?.nativeEvent.text,
+								username: value,
 							}))
 						}
 						otherStyles="mt-10"
@@ -73,10 +71,8 @@ const SignUp = () => {
 					<FormField
 						title="Email"
 						value={form.email}
-						handleChange={(
-							event: NativeSyntheticEvent<TextInputChangeEventData>
-						) =>
-							setForm((prev) => ({ ...prev, email: event?.nativeEvent.text }))
+						handleChange={(value) =>
+							setForm((prev) => ({ ...prev, email: value }))
 						}
 						otherStyles="mt-7"
 						keyboardType="email-address"
@@ -84,10 +80,8 @@ const SignUp = () => {
 					<FormField
 						title="Password"
 						value={form.password}
-						handleChange={(
-							event: NativeSyntheticEvent<TextInputChangeEventData>
-						) =>
-							setForm((prev) => ({ ...prev, password: event.nativeEvent.text }))
+						handleChange={(value) =>
+							setForm((prev) => ({ ...prev, password: value }))
 						}
 						otherStyles="mt-7"
 					/>

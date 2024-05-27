@@ -30,15 +30,13 @@ const SignIn = () => {
 
 		setSubmitting(true);
 		try {
-			const session = await signIn({
+			await signIn({
 				email: form.email,
 				password: form.password,
 			});
 
 			const user = await getCurrentUser();
 			// set it to global state
-			console.log("user from loggin in");
-			console.log(user);
 			setUser(user);
 			setLoggedIn(!!user);
 			router.replace("/home");
@@ -63,10 +61,8 @@ const SignIn = () => {
 					<FormField
 						title="Email"
 						value={form.email}
-						handleChange={(
-							event: NativeSyntheticEvent<TextInputChangeEventData>
-						) =>
-							setForm((prev) => ({ ...prev, email: event?.nativeEvent.text }))
+						handleChange={(text) =>
+							setForm((prev) => ({ ...prev, email: text }))
 						}
 						otherStyles="mt-7"
 						keyboardType="email-address"
@@ -74,10 +70,8 @@ const SignIn = () => {
 					<FormField
 						title="Password"
 						value={form.password}
-						handleChange={(
-							event: NativeSyntheticEvent<TextInputChangeEventData>
-						) =>
-							setForm((prev) => ({ ...prev, password: event.nativeEvent.text }))
+						handleChange={(text) =>
+							setForm((prev) => ({ ...prev, password: text }))
 						}
 						otherStyles="mt-7"
 					/>

@@ -50,16 +50,25 @@ export const createUser = async ({
 		if (!newAccount) throw new Error("Account not created");
 
 		const avatarUrl = avatars.getInitials(newAccount.$id);
-
-		await signIn({ email, password });
-
-		const newUser = await databases.createDocument(
-			config.databaseId,
-			config.userCollectionId,
-			ID.unique(),
-			{ accountId: newAccount.$id, username, email, avatar: avatarUrl }
-		);
-		return newUser;
+		try {
+			("signing in with the new account");
+			await signIn({ email, password });
+		} catch (error: any) {
+			console.log("error signing in with the new account");
+			throw new Error(error);
+		}
+		try {
+			const newUser = await databases.createDocument(
+				config.databaseId,
+				config.userCollectionId,
+				ID.unique(),
+				{ accountId: newAccount.$id, username, email, avatar: avatarUrl }
+			);
+			return newUser;
+		} catch (error: any) {
+			console.log("error creating user");
+			throw new Error(error);
+		}
 	} catch (error: any) {
 		console.log(error);
 		throw new Error(error);
@@ -74,11 +83,6 @@ export const signIn = async ({
 	password: string;
 }): Promise<Models.Session> => {
 	try {
-		try {
-			await account.deleteSession("current");
-		} catch (error: any) {
-			throw new Error(error);
-		}
 		const session = await account.createEmailPasswordSession(email, password);
 		console.log("session");
 		console.log(session);
@@ -96,6 +100,7 @@ export async function getAccount() {
 
 		return currentAccount;
 	} catch (error: any) {
+		console.log("error getting account");
 		throw new Error(error);
 	}
 }
@@ -105,7 +110,6 @@ export async function getCurrentUser() {
 	try {
 		const currentAccount = await getAccount();
 		if (!currentAccount) throw Error;
-
 		const currentUser = await databases.listDocuments(
 			config.databaseId,
 			config.userCollectionId,
@@ -114,7 +118,8 @@ export async function getCurrentUser() {
 
 		if (!currentUser) throw Error;
 		return currentUser.documents[0];
-	} catch (error) {
-		return null;
+	} catch (error: any) {
+		console.log("error getting current user");
+		throw new Error(error);
 	}
 }
